@@ -40,4 +40,4 @@ subprocess.run(
     env=env
 )
 
-print("Hoàn tất số hóa 📚")
+print("Tạo xong các tệp sách điện tử.")
