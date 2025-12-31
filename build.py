@@ -1,9 +1,9 @@
 import os
 import subprocess
 
-TITLE = "Ngày xuân"
-AUTHOR = "Nguyễn Văn A"
-DESC = "Một tác phẩm nhẹ nhàng về mùa xuân."
+TITLE = "Untitled"
+AUTHOR = "Unknown"
+DESC = "Description"
 
 def slugify(text):
     import unicodedata, re
@@ -24,6 +24,7 @@ content = (
     .replace("[title]", TITLE)
     .replace("[author]", AUTHOR)
     .replace("[desc]", DESC)
+    .replace("[ten-tep]", slug)
 )
 
 with open("index.html", "w", encoding="utf-8") as f:

@@ -11,7 +11,8 @@ pandoc doc.md -f markdown -t epub -s -o "${SLUG}.epub" \
 
 ebook-convert "${SLUG}.epub" "${SLUG}.azw3"
 
-pandoc doc.md -s -o "${SLUG}.html"
+pandoc doc.md --metadata title="$TITLE - $AUTHOR" --css="minimal.css" -s -o "${SLUG}.html"
 
 mkdir -p docs/files
 mv "${SLUG}.epub" "${SLUG}.azw3" "${SLUG}.html" docs/files/
+mv index.html docs/
