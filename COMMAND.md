@@ -27,13 +27,7 @@ python3 build.py
 ### Chuyển từ EPUB gốc sang Markdown
 
 ```
-pandoc [ten-tep].epub \
-  -o doc.md \
-  --wrap=none \
-  --extract-media=assets \
-  --to=commonmark_x+footnotes \
-  --standalone \
-  --lua-filter=clean-attrs.lua
+pandoc [ten-tep].epub -o doc.md --wrap=none --extract-media=assets --to=commonmark_x+footnotes --standalone --lua-filter=clean-attrs.lua
 ```
 
 ### Dọn sạch đống dấu cách bị thừa trong tệp EPUB
@@ -50,11 +44,20 @@ Sử dụng Regex này
 
 Find and Replace toàn bộ những Fields sau (Có cách nào để find and replace nhanh trong thư mục hiện tại không? Các field mình liệt kê dưới đây mình đang cân nhắc đặt vào trong tệp config: `khudocmo.yml`):
 
-- [title]: Tên tác phẩm
-- [author]: Tên tác giả
-- [desc]: Mô tả
-- [ten-tep]: Tên tác phẩm theo kiểu URL (Ví dụ: Ngày xuân thì thành `ngay-xuan`, nếu có thể chuyển đổi tự động bằng code luôn thì càng tốt)
+- `[title]`: Tên tác phẩm
+- `[author]`: Tên tác giả
+- `[desc]`: Mô tả
+- `[ten-tep]`: Tên tác phẩm theo kiểu URL (Ví dụ: Ngày xuân thì thành `ngay-xuan`, nếu có thể chuyển đổi tự động bằng code luôn thì càng tốt)
 
+### Chuyển đổi nhanh
+
+```
+python3 build.py \
+  "Tiêu Sơn tráng sĩ" \
+  "Khái Hưng" \
+  "Tiêu Sơn Tráng Sĩ, viết 1940 (có tài liệu nói 1936), là tác phẩm dài nhất của Khái Hưng, trên bốn trăm trang và cũng là tác phẩm công phu nhất của ông, nó đã làm sống lại một giai đoạn lịch sử cách đây hai trăm năm, thời Lê mạt Nguyễn sơ, dưới triều Cảnh Thịnh năm thứ năm (1797), tức Nguyễn quang Toản lên ngôi 1792." \
+  "/home/duykhanh471/Working/Khu đọc mở/tac-pham-khai-hung/khai-hung_tieu-son-trang-si/doc.md"
+```
 ### Chuyển đổi từ Markdown sang EPUB
 
 ```

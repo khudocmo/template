@@ -1,7 +1,3 @@
-# [title] - [author]
+# Template cho Khu đọc mở
 
-## Thông tin tác phẩm
-
-- Tên tác phẩm: [title] 
-- Tên tác giả: [author]
-- Mô tả: [desc]
+Để tạo sách này kia

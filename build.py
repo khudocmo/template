@@ -1,44 +1,72 @@
+#!/usr/bin/env python3
+
+import sys
 import os
 import subprocess
+from pathlib import Path
 
-TITLE = "Untitled"
-AUTHOR = "Unknown"
-DESC = "Description"
+if len(sys.argv) != 5:
+    print('Cấu trúc lệnh: python3 build.py "Tên tác phẩm" "Tên tác giả" "Mô tả" /path/to/doc.md')
+    sys.exit(1)
 
-def slugify(text):
-    import unicodedata, re
-    text = unicodedata.normalize("NFD", text)
-    text = text.encode("ascii", "ignore").decode("ascii")
-    text = text.lower()
-    text = re.sub(r"[^a-z0-9]+", "-", text)
-    return text.strip("-")
+TITLE = sys.argv[1]
+AUTHOR = sys.argv[2]
+DESC = sys.argv[3]
+DOC_PATH = Path(sys.argv[4]).expanduser().resolve()
 
-slug = slugify(TITLE)
+if not DOC_PATH.exists():
+    print(f"Lỗi: Markdown file not found: {DOC_PATH}")
+    sys.exit(1)
 
-# Replace index.html
-with open("index.html", "r", encoding="utf-8") as f:
-    content = f.read()
+# Tệp config
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+
+TEMPLATE_PATH = SCRIPT_DIR / "template.html"
+CSS_PATH = SCRIPT_DIR / "minimal.css"
+
+# Project FILE STRUCTURE
+
+PROJECT_DIR = DOC_PATH.parent
+BASE_NAME = PROJECT_DIR.name
+
+DOCS_DIR = PROJECT_DIR / "docs"
+FILES_DIR = DOCS_DIR / "files"
+
+DOCS_DIR.mkdir(exist_ok=True)
+FILES_DIR.mkdir(parents=True, exist_ok=True)
+
+INDEX_PATH = DOCS_DIR / "index.html"
+
+# Generate index.html
+
+content = TEMPLATE_PATH.read_text(encoding="utf-8")
 
 content = (
     content
     .replace("[title]", TITLE)
     .replace("[author]", AUTHOR)
     .replace("[desc]", DESC)
-    .replace("[ten-tep]", slug)
+    .replace("[ten-tep]", BASE_NAME)
 )
 
-with open("index.html", "w", encoding="utf-8") as f:
-    f.write(content)
+INDEX_PATH.write_text(content, encoding="utf-8")
 
-# Export env for shell
+
 env = os.environ.copy()
-env["TITLE"] = TITLE
-env["AUTHOR"] = AUTHOR
+env.update({
+    "TITLE": TITLE,
+    "AUTHOR": AUTHOR,
+    "DOC_PATH": str(DOC_PATH),
+    "BASE_NAME": BASE_NAME,
+    "FILES_DIR": str(FILES_DIR),
+    "CSS_PATH": str(CSS_PATH),
+})
 
 subprocess.run(
-    ["bash", "build.sh", slug],
+    ["bash", str(SCRIPT_DIR / "build.sh")],
     check=True,
     env=env
 )
 
-print("Tạo xong các tệp sách điện tử.")
+print(f"Hoàn tất: {DOCS_DIR}")

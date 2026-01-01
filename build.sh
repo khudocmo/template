@@ -1,18 +1,16 @@
 #!/usr/bin/env bash
 set -e
 
-SLUG="$1"
+EPUB="${FILES_DIR}/${BASE_NAME}.epub"
+AZW3="${FILES_DIR}/${BASE_NAME}.azw3"
+HTML="${FILES_DIR}/${BASE_NAME}.html"
 
-pandoc doc.md -f markdown -t epub -s -o "${SLUG}.epub" \
+pandoc "$DOC_PATH" -f markdown -t epub -s -o "$EPUB" \
   --metadata title="$TITLE" \
   --metadata author="$AUTHOR" \
   --metadata language="vi" \
-  --css="minimal.css"
+  --css="$CSS_PATH"
 
-ebook-convert "${SLUG}.epub" "${SLUG}.azw3"
+ebook-convert "$EPUB" "$AZW3"
 
-pandoc doc.md --metadata title="$TITLE - $AUTHOR" --css="minimal.css" -s -o "${SLUG}.html"
-
-mkdir -p docs/files
-mv "${SLUG}.epub" "${SLUG}.azw3" "${SLUG}.html" docs/files/
-mv index.html docs/
+pandoc "$DOC_PATH" -s -o "$HTML"
