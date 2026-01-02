@@ -53,10 +53,10 @@ Find and Replace toàn bộ những Fields sau (Có cách nào để find and re
 
 ```
 python3 build.py \
-  "Tiêu Sơn tráng sĩ" \
-  "Khái Hưng" \
-  "Tiêu Sơn Tráng Sĩ, viết 1940 (có tài liệu nói 1936), là tác phẩm dài nhất của Khái Hưng, trên bốn trăm trang và cũng là tác phẩm công phu nhất của ông, nó đã làm sống lại một giai đoạn lịch sử cách đây hai trăm năm, thời Lê mạt Nguyễn sơ, dưới triều Cảnh Thịnh năm thứ năm (1797), tức Nguyễn quang Toản lên ngôi 1792." \
-  "/home/duykhanh471/Working/Khu đọc mở/tac-pham-khai-hung/khai-hung_tieu-son-trang-si/doc.md"
+  "Title" \
+  "Author" \
+  "Description" \
+  "Path"
 ```
 ### Chuyển đổi từ Markdown sang EPUB
 

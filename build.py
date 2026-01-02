@@ -38,6 +38,20 @@ FILES_DIR.mkdir(parents=True, exist_ok=True)
 
 INDEX_PATH = DOCS_DIR / "index.html"
 
+README_TEMPLATE_PATH = SCRIPT_DIR / "README.template.md"
+README_PATH = PROJECT_DIR / "README.md"
+
+readme_content = README_TEMPLATE_PATH.read_text(encoding="utf-8")
+
+readme_content = (
+    readme_content
+    .replace("[title]", TITLE)
+    .replace("[author]", AUTHOR)
+    .replace("[desc]", DESC)
+)
+
+README_PATH.write_text(readme_content, encoding="utf-8")
+
 # Generate index.html
 
 content = TEMPLATE_PATH.read_text(encoding="utf-8")
