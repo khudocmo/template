@@ -52,11 +52,7 @@ Find and Replace toàn bộ những Fields sau (Có cách nào để find and re
 ### Chuyển đổi nhanh
 
 ```
-python3 build.py \
-  "Title" \
-  "Author" \
-  "Description" \
-  "Path"
+python3 build.py "Title" "Author" "Description" "Path"
 ```
 ### Chuyển đổi từ Markdown sang EPUB
 

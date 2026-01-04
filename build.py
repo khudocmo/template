@@ -5,14 +5,19 @@ import os
 import subprocess
 from pathlib import Path
 
-if len(sys.argv) != 5:
-    print('Cấu trúc lệnh: python3 build.py "Tên tác phẩm" "Tên tác giả" "Mô tả" /path/to/doc.md')
+args = sys.argv[1:]
+
+if len(args) < 4:
+    print('Cấu trúc lệnh: python3 build.py "Tên tác phẩm" "Tên tác giả" "Mô tả" /path/to/doc.md [--build-assets]')
     sys.exit(1)
 
-TITLE = sys.argv[1]
-AUTHOR = sys.argv[2]
-DESC = sys.argv[3]
-DOC_PATH = Path(sys.argv[4]).expanduser().resolve()
+BUILD_ASSETS = False
+if "--build-assets" in args:
+    BUILD_ASSETS = True
+    args.remove("--build-assets")
+
+TITLE, AUTHOR, DESC, DOC_PATH_RAW = args[:4]
+DOC_PATH = Path(DOC_PATH_RAW).expanduser().resolve()
 
 if not DOC_PATH.exists():
     print(f"Lỗi: Markdown file not found: {DOC_PATH}")
@@ -29,6 +34,8 @@ CSS_PATH = SCRIPT_DIR / "minimal.css"
 
 PROJECT_DIR = DOC_PATH.parent
 BASE_NAME = PROJECT_DIR.name
+# author_path = phần trước dấu "_"
+AUTHOR_PATH = BASE_NAME.split("_", 1)[0]
 
 DOCS_DIR = PROJECT_DIR / "docs"
 FILES_DIR = DOCS_DIR / "files"
@@ -60,6 +67,7 @@ content = (
     content
     .replace("[title]", TITLE)
     .replace("[author]", AUTHOR)
+    .replace("[author_path]", AUTHOR_PATH)
     .replace("[desc]", DESC)
     .replace("[ten-tep]", BASE_NAME)
 )
@@ -77,10 +85,15 @@ env.update({
     "CSS_PATH": str(CSS_PATH),
 })
 
-subprocess.run(
-    ["bash", str(SCRIPT_DIR / "build.sh")],
-    check=True,
-    env=env
-)
+if BUILD_ASSETS:
+    subprocess.run(
+        ["bash", str(SCRIPT_DIR / "build.sh")],
+        check=True,
+        env=env
+    )
+    print("✓ Đã build lại ebook assets")
+else:
+    print("✓ Chỉ cập nhật index.html và README.md (skip build assets)")
+
 
 print(f"Hoàn tất: {DOCS_DIR}")
